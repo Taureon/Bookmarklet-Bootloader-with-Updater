@@ -5,7 +5,7 @@ javascript:(async function(){
 
     try {
         let itemName = 'PRODUCTNAME_bootloader',
-            storedCode = localStorage.getItem(itemName),
+            stored = localStorage.getItem(itemName),
 
         //fetch a string from the server
         _fetch = path => new Promise(Resolve => fetch('https://UPDATE-SERVER-URL.example.com/' + path).then(res => res.text()).then(Resolve)),
@@ -14,28 +14,28 @@ javascript:(async function(){
 
         //updates the client
         update = async() => {
-            storedCode[1] = await _fetch('code');
-            localStorage.setItem(itemName, JSON.stringify(storedCode));
+            stored[1] = await _fetch('code');
+            localStorage.setItem(itemName, JSON.stringify(stored));
         };
 
         //this is not the first time it has been run, but are we still up to date?
-        if (storedCode) {
-            storedCode = JSON.parse(storedCode);
+        if (stored) {
+            stored = JSON.parse(stored);
             
             //we are not up to date, lets update
-            if (storedCode[0] !== version) {
-                storedCode[0] = version;
+            if (stored[0] !== version) {
+                stored[0] = version;
                 await update();
             }
 
         //if this is the first time that the bootloader has been run
         } else {
-            storedCode = [version];
+            stored = [version];
             await update();
         }
 
         //we are done, time to run it
-        eval(storedCode[1]);
+        eval(stored[1]);
 
     //if an error happened, make an alert about it
     } catch (err) {
