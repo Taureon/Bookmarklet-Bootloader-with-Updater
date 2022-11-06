@@ -8,7 +8,7 @@ javascript:(async function(){
             storedCode = localStorage.getItem(itemName),
 
         //fetch a string from the server
-        _fetch = (path, options) => new Promise((Resolve, Reject) => fetch('https://UPDATE-SERVER-URL.example.com/' + path, options).then(res => res.text()).then(Resolve)),
+        _fetch = path => new Promise(Resolve => fetch('https://UPDATE-SERVER-URL.example.com/' + path).then(res => res.text()).then(Resolve)),
         
         version = await _fetch('version'),
 
